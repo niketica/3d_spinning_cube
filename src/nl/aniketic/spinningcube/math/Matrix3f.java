@@ -28,22 +28,6 @@ public class Matrix3f {
         m.m21 = 0.0f;
         m.m22 = 1.0f;
     }
-    
-    public Vector3f transform(Vector3f v) {
-        return Matrix3f.transform(this, v);
-    }
-    
-    public static Vector3f transform(Matrix3f m, Vector3f v) {
-        float x = m.m00 * v.x + m.m10 * v.y + m.m20 * v.z;
-        float y = m.m01 * v.x + m.m11 * v.y + m.m21 * v.z;
-        float z = m.m02 * v.x + m.m12 * v.y + m.m22 * v.z;
-        
-        return new Vector3f(
-                x,
-                y,
-                z
-        );
-    }
 
     public Vector3f mul(Vector3f v) {
         return Matrix3f.mul(this, v);
