@@ -1,4 +1,4 @@
-package nl.aniketic.asteroids.math;
+package nl.aniketic.spinningcube.math;
 
 public class Vector3f {
 

@@ -1,6 +1,6 @@
-package nl.aniketic.asteroids.display;
+package nl.aniketic.spinningcube.display;
 
-import nl.aniketic.asteroids.game.Program;
+import nl.aniketic.spinningcube.game.Program;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;

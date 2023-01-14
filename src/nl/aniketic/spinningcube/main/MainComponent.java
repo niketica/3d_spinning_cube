@@ -1,6 +1,6 @@
-package nl.aniketic.asteroids.main;
+package nl.aniketic.spinningcube.main;
 
-import nl.aniketic.asteroids.game.Program;
+import nl.aniketic.spinningcube.game.Program;
 
 public class MainComponent {
 

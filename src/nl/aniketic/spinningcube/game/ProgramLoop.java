@@ -1,6 +1,6 @@
-package nl.aniketic.asteroids.game;
+package nl.aniketic.spinningcube.game;
 
-import nl.aniketic.asteroids.display.DisplayManager;
+import nl.aniketic.spinningcube.display.DisplayManager;
 
 public class ProgramLoop implements Runnable {
 

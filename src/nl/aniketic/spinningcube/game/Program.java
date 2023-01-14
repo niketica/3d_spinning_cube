@@ -1,8 +1,8 @@
-package nl.aniketic.asteroids.game;
+package nl.aniketic.spinningcube.game;
 
-import nl.aniketic.asteroids.display.DisplayManager;
-import nl.aniketic.asteroids.math.Matrix3f;
-import nl.aniketic.asteroids.math.Vector3f;
+import nl.aniketic.spinningcube.display.DisplayManager;
+import nl.aniketic.spinningcube.math.Matrix3f;
+import nl.aniketic.spinningcube.math.Vector3f;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
