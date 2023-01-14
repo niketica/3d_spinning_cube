@@ -1,4 +1,4 @@
-package nl.aniketic.spinningcube.game;
+package nl.aniketic.spinningcube.program;
 
 import nl.aniketic.spinningcube.display.DisplayManager;
 

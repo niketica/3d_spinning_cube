@@ -1,6 +1,6 @@
 package nl.aniketic.spinningcube.display;
 
-import nl.aniketic.spinningcube.game.Program;
+import nl.aniketic.spinningcube.program.Program;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
