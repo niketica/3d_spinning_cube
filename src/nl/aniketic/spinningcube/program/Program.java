@@ -1,11 +1,14 @@
 package nl.aniketic.spinningcube.program;
 
 import nl.aniketic.spinningcube.display.DisplayManager;
+import nl.aniketic.spinningcube.input.GameKey;
+import nl.aniketic.spinningcube.input.KeyInput;
 import nl.aniketic.spinningcube.math.Matrix3f;
 import nl.aniketic.spinningcube.math.Vector3f;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
+import java.awt.event.KeyEvent;
 
 public class Program {
 
@@ -20,11 +23,18 @@ public class Program {
     private Matrix3f rotationMatrixY;
     private Matrix3f rotationMatrixZ;
 
-    float angle;
+    private float angle;
+    private float speed;
+    private float cubeLength;
+
+    private Vector3f cubePosition;
+    private Vector3f movement;
 
     public Program() {
         DisplayManager displayManager = new DisplayManager(this);
         displayManager.createWindow();
+
+        displayManager.addKeyListener(new KeyInput());
 
         ProgramLoop programLoop = new ProgramLoop(this, displayManager);
         Thread thread = new Thread(programLoop);
@@ -33,18 +43,22 @@ public class Program {
 
     public void start() {
         angle = 0.0f;
+        speed = 0.1f;
+        cubeLength = 1.0f;
+        float halfCube = cubeLength / 2;
 
         points = new Vector3f[]{
-                new Vector3f(-0.5f, -0.5f, -0.5f),
-                new Vector3f(+0.5f, -0.5f, -0.5f),
-                new Vector3f(+0.5f, +0.5f, -0.5f),
-                new Vector3f(-0.5f, +0.5f, -0.5f),
+                new Vector3f(-halfCube, -halfCube, -halfCube),
+                new Vector3f(halfCube, -halfCube, -halfCube),
+                new Vector3f(halfCube, halfCube, -halfCube),
+                new Vector3f(-halfCube, halfCube, -halfCube),
 
-                new Vector3f(-0.5f, -0.5f, 0.5f),
-                new Vector3f(+0.5f, -0.5f, 0.5f),
-                new Vector3f(+0.5f, +0.5f, 0.5f),
-                new Vector3f(-0.5f, +0.5f, 0.5f)
+                new Vector3f(-halfCube, -halfCube, halfCube),
+                new Vector3f(halfCube, -halfCube, halfCube),
+                new Vector3f(halfCube, halfCube, halfCube),
+                new Vector3f(-halfCube, halfCube, halfCube)
         };
+        cubePosition = new Vector3f(1.0f, 0.0f, 0.0f);
 
         projected = new Vector3f[8];
 
@@ -55,6 +69,26 @@ public class Program {
     }
 
     public void update() {
+        movement = new Vector3f(0, 0, 0);
+        if (GameKey.getKey(KeyEvent.VK_W).isPressed()) {
+            movement.y -= 1;
+        }
+        if (GameKey.getKey(KeyEvent.VK_S).isPressed()) {
+            movement.y += 1;
+        }
+        if (GameKey.getKey(KeyEvent.VK_A).isPressed()) {
+            movement.x -= 1;
+        }
+        if (GameKey.getKey(KeyEvent.VK_D).isPressed()) {
+            movement.x += 1;
+        }
+
+        if (movement.length() > 0) {
+            movement = movement.normalize();
+            movement = movement.mul(speed);
+            cubePosition = cubePosition.add(movement);
+        }
+
         angle += 0.02f;
 
         rotationMatrixX.m11 = (float) Math.cos(angle);
@@ -79,15 +113,20 @@ public class Program {
         for (int i = 0; i < points.length; i++) {
             Vector3f p = points[i];
 
-            Vector3f rotated = rotationMatrixY.mul(p);
+            float length = p.length();
+            Vector3f normalized = p.normalize();
+
+            Vector3f rotated = rotationMatrixY.mul(normalized);
             rotated = rotationMatrixX.mul(rotated);
             rotated = rotationMatrixZ.mul(rotated);
+
+            rotated = rotated.mul(length);
+            rotated = rotated.add(cubePosition);
 
             float distance = 2;
             float z = 1 / (distance - rotated.z);
             projectionMatrix.m00 = z;
             projectionMatrix.m11 = z;
-
             Vector3f projected2d = projectionMatrix.mul(rotated);
 
             projected2d = projected2d.mul(400);

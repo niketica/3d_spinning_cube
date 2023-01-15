@@ -12,6 +12,18 @@ public class Vector3f {
         this.z = z;
     }
 
+    public Vector3f add(Vector3f v) {
+        float x = this.x + v.x;
+        float y = this.y + v.y;
+        float z = this.z + v.z;
+
+        return new Vector3f(
+                x,
+                y,
+                z
+        );
+    }
+
     public Vector3f mul(float value) {
         float x = this.x * value;
         float y = this.y * value;
@@ -21,6 +33,20 @@ public class Vector3f {
                 x,
                 y,
                 z
+        );
+    }
+
+    public float length() {
+        return (float) Math.sqrt(x * x + y * y + z * z);
+    }
+
+    public Vector3f normalize() {
+        float l = length();
+        float x = this.x / l;
+        float y = this.y / l;
+        float z = this.z / l;
+        return new Vector3f(
+                x, y, z
         );
     }
 
